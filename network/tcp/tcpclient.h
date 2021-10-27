@@ -1,6 +1,8 @@
 #ifndef tcpclient_h__
 #define tcpclient_h__
-namespace net {
+#include "../networkdef.h"
+
+namespace network {
 	class tcpclient
 	{
 	public:

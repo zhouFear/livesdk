@@ -13,31 +13,33 @@ SET(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREADED ON)  
 set(Boost_USE_STATIC_RUNTIME OFF)
 
-set(NET_SRCS 
-net/tcp/tcpserver.h
-net/tcp/tcpserver.cpp
-net/tcp/tcpclient.h
-net/tcp/tcpclient.cpp
-net/udp/udpserver.h
-net/udp/udpserver.cpp
-net/udp/udpclient.h
-net/udp/udpclient.cpp)
+set(NETWORK_SRCS 
+network/tcp/tcpserver.h
+network/tcp/tcpserver.cpp
+network/tcp/tcpclient.h
+network/tcp/tcpclient.cpp
+network/udp/udpserver.h
+network/udp/udpserver.cpp
+network/udp/udpclient.h
+network/udp/udpclient.cpp)
 
 set(LOG_SRCS 
 log/logger.h
 log/logger.cpp
 )
 
-source_group(net FILES ${NET_SRCS})
+source_group(network FILES ${NETWORK_SRCS})
 source_group(log FILES ${LOG_SRCS})
+
+add_subdirectory(test/tcpclient)
+add_subdirectory(test/tcpserver)
 
 find_package(Boost REQUIRED COMPONENTS)
 if(Boost_FOUND)
     MESSAGE(STATUS "Boost_INCLUDE_DIRS ${Boost_INCLUDE_DIRS}")
     MESSAGE(STATUS "Boost_LIBRARIES ${Boost_LIBRARIES}")
     include_directories(${Boost_INCLUDE_DIRS})
-    add_executable(livesdk main.cpp ${NET_SRCS} ${LOG_SRCS})
+    add_executable(livesdk main.cpp ${NETWORK_SRCS} ${LOG_SRCS})
     #add_executable(${PROJECT_NAME} ${DIR_SRCS} ${HEADERS})  
     target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
 endif()
-

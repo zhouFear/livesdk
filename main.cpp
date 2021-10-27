@@ -1,12 +1,6 @@
-#include <boost/asio/io_service.hpp>
-#include <boost/asio/socket_base.hpp>
-#include <boost/asio/ip/tcp.hpp>
-
-#define ASIO boost::asio
+#include "network/tcp/tcpserver.h"
 
 int main() {
-	ASIO::io_service ser;
-	ASIO::ip::tcp::socket sock(ser);
+	network::tcpserver ser(80000, NULL);
 	ser.run();
-	return 0;
 }
