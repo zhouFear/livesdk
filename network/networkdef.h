@@ -7,4 +7,9 @@
 
 #define interface struct
 
+interface tcpserverlistener {
+	virtual ~tcpserverlistener() {};
+	virtual void on_new_connection(const ASIOTCP::socket& sock) = 0;
+};
+
 #endif // networkdef_h__

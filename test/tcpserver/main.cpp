@@ -2,5 +2,6 @@
 
 int main(){
 	network::tcpserver ser(9000, NULL);
+	ser.run();
 	return 0;
 }

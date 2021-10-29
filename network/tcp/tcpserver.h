@@ -4,12 +4,6 @@
 #include <boost/enable_shared_from_this.hpp>
 
 namespace network {
-
-	interface tcpserverlistener {
-		virtual ~tcpserverlistener() {};
-		virtual void on_new_connection() = 0;
-	};
-
 	class tcpserver:public boost::enable_shared_from_this<tcpserver>
 	{
 	public:
@@ -19,6 +13,7 @@ namespace network {
 		void run();
 		void stop();
 		void accept();
+		void on_new_connection(ASIOTCP::socket sock);
 	private:
 		ASIO::io_service m_io_ser;
 		ASIO::ip::tcp::acceptor m_acceptor;

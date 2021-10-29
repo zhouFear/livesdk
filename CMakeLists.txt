@@ -16,6 +16,10 @@ set(Boost_USE_STATIC_RUNTIME OFF)
 set(NETWORK_SRCS 
 network/tcp/tcpserver.h
 network/tcp/tcpserver.cpp
+network/tcp/tcpconnection.h
+network/tcp/tcpconnection.cpp
+network/tcp/tcpconnectionmgr.h
+network/tcp/tcpconnectionmgr.cpp
 network/tcp/tcpclient.h
 network/tcp/tcpclient.cpp
 network/udp/udpserver.h
