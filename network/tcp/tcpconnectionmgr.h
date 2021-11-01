@@ -9,6 +9,7 @@ namespace network {
 		explicit tcpconnectionmgr();
 		~tcpconnectionmgr();
 
+		void start(tcpconnection_ptr _conn);
 	private:
 		std::set<tcpconnection_ptr> m_connectionset;
 	};

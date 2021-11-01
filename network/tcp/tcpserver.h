@@ -1,24 +1,26 @@
 #ifndef tcpserver_h__
 #define tcpserver_h__
 #include "../networkdef.h"
-#include <boost/enable_shared_from_this.hpp>
+#include <memory>
 
 namespace network {
-	class tcpserver:public boost::enable_shared_from_this<tcpserver>
+	class tcpconnectionmgr;
+	class tcpserver:public std::enable_shared_from_this<tcpserver>
 	{
 	public:
-		explicit tcpserver(uint16_t port, tcpserverlistener* listener);
+		explicit tcpserver(uint16_t port);
 		~tcpserver();
 
 		void run();
 		void stop();
 		void accept();
-		void on_new_connection(ASIOTCP::socket sock);
 	private:
 		ASIO::io_service m_io_ser;
-		ASIO::ip::tcp::acceptor m_acceptor;
-		tcpserverlistener* m_listener;
-
+		ASIOTCP::acceptor m_acceptor;
+		// tcpserverlistener* m_listener;
+		tcpconnectionmgr* m_connection_manager_ptr;
 	};
+
+	typedef std::shared_ptr<tcpserver> t_tcpser_ptr;
 }
 #endif // tcpserver_h__
