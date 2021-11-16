@@ -1,3 +1,5 @@
+/*! \file tcpserver.h */
+
 #ifndef tcpserver_h__
 #define tcpserver_h__
 #include "../networkdef.h"
