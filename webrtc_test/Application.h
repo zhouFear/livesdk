@@ -1,6 +1,6 @@
 #pragma once
 #include <Windows.h>
-#include "modules/video_capture/video_capture.h"
+#include <modules/video_capture/video_capture.h>
 #include <map>
 #include <xstring>
 #include <mutex>
@@ -19,17 +19,16 @@ public:
 	BOOL  InitInstance(int);
 	void  Create(HWND hWnd);
 	int  Run();
-	void StartCapture(WCHAR* devName);
 	
 	HRESULT InitD3D(HWND hwnd);
 	void CleanUp();
+	void StartCapture(WCHAR* devName);
 	void Render(int w, int h);
 
 	static LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 	static INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 	void SaveBitmapToFile();
-	
 	// rtc::VideoSinkInterface<webrtc::VideoFrame>
 	virtual void OnFrame(const webrtc::VideoFrame& frame);
 private:

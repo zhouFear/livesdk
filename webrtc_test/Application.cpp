@@ -6,7 +6,7 @@
 #include "modules/video_capture/video_capture.h"
 #include "common.h"
 #include "api/video/i420_buffer.h"
-#include "libyuv.h"
+#include "libyuv/include/libyuv.h"
 
 #pragma comment(lib,"D3D11.lib")
 #define WM_DRAWFRAME WM_USER + 2000
@@ -75,7 +75,7 @@ void Application::Create(HWND hWnd)
 	_h = CreateWindow(L"Button", L"截图", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON,
 		1100, 120, 200, 30, hWnd, (HMENU)IDB_JIETU, m_hInst, NULL);
 	err = GetLastError();
-	m_comboxHwnd = CreateWindow(L"ComboBox", L"", WS_VISIBLE | WS_CHILD | CBS_AUTOHSCROLL | CBS_DISABLENOSCROLL | CBS_DROPDOWN | CBS_DROPDOWNLIST | CBS_SIMPLE,
+	m_comboxHwnd = CreateWindow(L"ComboBox", L"", WS_VISIBLE | WS_CHILD| CBS_DROPDOWN | CBS_DROPDOWNLIST | CBS_SIMPLE,
 		1100, 10, 200, 50, hWnd, (HMENU)IDC_DEVICE_LIST, m_hInst, NULL);
 	err = GetLastError();
 	m_renderHwnd = CreateWindow(L"Static", L"", WS_VISIBLE | WS_CHILD, 10, 10, 1080, 650, hWnd, (HMENU)IDC_STATIC_IMAGE, m_hInst, NULL);
@@ -355,7 +355,7 @@ void Application::SaveBitmapToFile()
 	HPALETTE            hPal, hOldPal = NULL;//调色板句柄
 
 	// CDC   dc;
-	HWND hwnd = ::GetDesktopWindow();
+	HWND hwnd = m_renderHwnd;
 	HDC   hdc = ::GetDC(hwnd);
 	HDC hComDC = CreateCompatibleDC(hdc);
 	RECT   r;
@@ -457,7 +457,8 @@ void Application::_doConstruct()
 			//保存所有的设备名称
 			if (m_deviceInfo->GetDeviceName(i, devName, MAX_PATH, uniqueName, MAX_PATH) != -1)
 			{
-				WCHAR* wDevName = common::a2w(devName, MAX_PATH);
+				WCHAR* wDevName = NULL;
+				common::a2w(devName, MAX_PATH, &wDevName);
 				SendMessage(m_comboxHwnd, (UINT)CB_ADDSTRING, (WPARAM)0, (LPARAM)wDevName);
 				m_deviceMap[wDevName] = uniqueName;
 				delete []wDevName;

@@ -35,8 +35,10 @@ log/logger.cpp
 source_group(network FILES ${NETWORK_SRCS})
 source_group(log FILES ${LOG_SRCS})
 
+#sub
 add_subdirectory(test/tcpclient)
 add_subdirectory(test/tcpserver)
+add_subdirectory(webrtc_test)
 
 add_definitions(-D DLLEXPORTS_SDK)
 
