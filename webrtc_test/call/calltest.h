@@ -2,6 +2,7 @@
 #define call_h__
 #include "call/call.h"
 #include "audioloop.h"
+#include "test/test_video_capturer.h"
 
 class webrtc::AudioDeviceModule;
 class webrtc::RtcEventLog;
@@ -13,12 +14,15 @@ public:
 	~calltest();
 
 	void CreateCall();
-	void AudioDeviceModule_Setup();
+	void AudioDeviceModuleSetup();
 	void StartCapture();
 private:
-	rtc::scoped_refptr<webrtc::AudioDeviceModule> m_adv;
-	webrtc::RtcEventLog* m_event_log;
-	std::shared_ptr<webrtc::Call> m_call_ptr;
-	std::shared_ptr<AudioLoopTransport> m_audioLoop_ptr;
+	rtc::scoped_refptr<webrtc::AudioDeviceModule> m_adv = nullptr;
+	webrtc::RtcEventLog* m_event_log = nullptr;
+	std::unique_ptr<webrtc::Call> m_call_ptr = nullptr;
+	std::unique_ptr<AudioLoopTransport> m_audio_loop_ptr = nullptr;
+	std::unique_ptr<webrtc::test::TestVideoCapturer> m_video_capture_ptr = nullptr;
+
+
 };
 #endif // call_h__

@@ -67,7 +67,7 @@ webrtc_test.rc)
 #设置链接库路径
 LINK_DIRECTORIES(${WEBRTC_ROOT}/out/Default/obj)
 #设置链接库名称
-LINK_LIBRARIES(webrtc Strmiids winmm ws2_32)
+LINK_LIBRARIES(webrtc Strmiids winmm ws2_32 dmoguids wmcodecdspuuid Msdmo)
 #target_link_libraries(Strmiids)
 add_executable(webrtc_test ${SC_FILES} ${RESOURCE} ${CALLDIR}
 )

@@ -1,13 +1,22 @@
 #include "calltest.h"
 #include "call/call.h"
 #include "modules/audio_mixer/audio_mixer_impl.h"
+#include "test/vcm_capturer.h"
+#include "modules/audio_device/audio_device_impl.h"
 
 namespace {
-	const int CALL_MIN_BPS = 10;
-	const int CALL_START_BPS = 20;
-	const int CALL_MAX_BPS = 30;
+	const int CALL_MIN_BPS = 60 * 1000;
+	const int CALL_START_BPS = 300 * 1000;
+	const int CALL_MAX_BPS = 800 * 1000;
 
-	const int USED_AUDIO_DEVICE_ID = 1;
+	const int USED_AUDIO_DEVICE_ID = 0;
+	const int USED_VIDEO_DEVICE_ID = 0;
+	
+	const int USED_VIDEO_WIDTH = 640;
+	const int USED_VIDEO_HEIGHT = 480;
+	const int USED_VIDEO_FPS = 30;
+	const int USED_MAX_VIDEO_QP = 48;
+
 }
 
 calltest::calltest() {
@@ -37,12 +46,12 @@ void calltest::CreateCall()
 	callConfig.bitrate_config = call_bitrate_config;
 	m_adv->RegisterAudioCallback(callConfig.audio_state->audio_transport());
 
-	m_call_ptr = std::shared_ptr<webrtc::Call>(webrtc::Call::Create(callConfig));
+	m_call_ptr.reset(webrtc::Call::Create(callConfig));
 	m_call_ptr->SignalChannelNetworkState(webrtc::MediaType::AUDIO, webrtc::kNetworkUp);
 	m_call_ptr->SignalChannelNetworkState(webrtc::MediaType::VIDEO, webrtc::kNetworkUp);
 }
 
-void calltest::AudioDeviceModule_Setup()
+void calltest::AudioDeviceModuleSetup()
 {
 	bool stereo_playout = false;
 	bool stereo_record = false;
@@ -65,5 +74,6 @@ void calltest::AudioDeviceModule_Setup()
 
 void calltest::StartCapture()
 {
-	
+	m_video_capture_ptr.reset(webrtc::test::VcmCapturer::Create(USED_VIDEO_WIDTH, USED_VIDEO_HEIGHT, USED_VIDEO_FPS, USED_VIDEO_DEVICE_ID));
+	m_video_capture_ptr->Start();
 }
