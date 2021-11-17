@@ -35,8 +35,7 @@ void network::tcpserver::stop()
 
 void network::tcpserver::accept()
 {
-	// ASIOTCP::endpoint sock;
-	std::shared_ptr<tcpserver> self(shared_from_this());
+	t_tcpser_ptr self(shared_from_this());
 	t_socket_ptr _ptr_sock = std::make_shared<ASIOTCP::socket>(m_io_ser);
 	m_acceptor.async_accept(*_ptr_sock, [this, self, _ptr_sock](const boost::system::error_code& ec) {
 		m_connection_manager_ptr->start(std::make_shared<network::tcpconnection>(_ptr_sock));

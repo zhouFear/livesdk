@@ -3,11 +3,12 @@
 #ifndef tcpserver_h__
 #define tcpserver_h__
 #include "../networkdef.h"
+#include "../exportdef.h"
 #include <memory>
 
 namespace network {
 	class tcpconnectionmgr;
-	class tcpserver:public std::enable_shared_from_this<tcpserver>
+	class LIVEAPI tcpserver:public std::enable_shared_from_this<tcpserver>
 	{
 	public:
 		explicit tcpserver(uint16_t port);

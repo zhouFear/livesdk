@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.0)
 project(livesdk)
 
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=C++11")
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/../sln/bin)
+set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin/)
 
 # …Ë÷√boost
 set(BOOST_INCLUDEDIR " ..\\3rdparty\\boost_1_77_0")
@@ -38,12 +38,15 @@ source_group(log FILES ${LOG_SRCS})
 add_subdirectory(test/tcpclient)
 add_subdirectory(test/tcpserver)
 
+add_definitions(-D DLLEXPORTS_SDK)
+
 find_package(Boost REQUIRED COMPONENTS)
 if(Boost_FOUND)
     MESSAGE(STATUS "Boost_INCLUDE_DIRS ${Boost_INCLUDE_DIRS}")
     MESSAGE(STATUS "Boost_LIBRARIES ${Boost_LIBRARIES}")
     include_directories(${Boost_INCLUDE_DIRS})
-    add_executable(livesdk main.cpp ${NETWORK_SRCS} ${LOG_SRCS})
+    #add_executable(livesdk main.cpp ${NETWORK_SRCS} ${LOG_SRCS})
+    add_library(livesdk SHARED dllmain.cpp ${NETWORK_SRCS} ${LOG_SRCS})
     #add_executable(${PROJECT_NAME} ${DIR_SRCS} ${HEADERS})  
     target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
 endif()

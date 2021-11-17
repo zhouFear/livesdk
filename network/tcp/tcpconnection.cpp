@@ -17,7 +17,6 @@ void network::tcpconnection::do_read()
 	m_p_sock->async_read_some(ASIO::buffer(m_data, MaxLen), [this, self](boost::system::error_code ec, std::size_t length) {
 		if (!ec)
 		{
-			OutputDebugStringA(m_data);
 			on_recv(m_data, length);
 		}
 		});
@@ -36,6 +35,9 @@ void network::tcpconnection::do_write()
 
 void network::tcpconnection::on_recv(char* buffer, size_t length)
 {
-
+	if (m_listener)
+	{
+		m_listener->on_recv(buffer, length);
+	}
 }
 
